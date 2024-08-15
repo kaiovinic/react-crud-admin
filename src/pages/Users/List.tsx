@@ -1,3 +1,5 @@
+import DataTable from "../../components/Grid";
+
 export default function List() {
-  return <div>List</div>;
+  return <Grid />;
 }
