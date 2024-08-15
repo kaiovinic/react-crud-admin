@@ -90,10 +90,10 @@ export default function Grid() {
   const users = [
     {
       id: "1",
-      fullName: "Felipe Fontoura",
+      fullName: "Kaio Vinicius Silva Santos",
       document: "986.007.560-30",
-      birthDate: new Date(1982, 1, 1),
-      email: "felipe@teste.com.br",
+      birthDate: new Date(1986, 1, 1),
+      email: "Kaio@teste.com.br",
       emailVerified: true,
       mobile: "(11) 99999-9999",
       zipCode: "00000-000",
@@ -101,8 +101,8 @@ export default function Grid() {
       number: "123",
       complement: "",
       neighborhood: "Bairro Teste",
-      city: "São Paulo",
-      state: "SP",
+      city: "Salvador",
+      state: "BA",
     },
   ];
 
