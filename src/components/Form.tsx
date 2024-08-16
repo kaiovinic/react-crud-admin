@@ -23,7 +23,7 @@ import { useLocalStorage } from "usehooks-ts";
 
 import FormTitle from "../../../components/FormTitle";
 
-import { findBrazilianZipCode } from "../../../services/api";
+import { findBrazilianZipCode } from "../services/api";
 
 import { UserSchema } from "../pages/Users/schemas/UserShema";
 
@@ -50,7 +50,7 @@ export default function Form() {
   useEffect(() => {
     if (!id) return;
 
-    const user = users.find((user) => user.id === id);
+    const user = users.find((user: { id: string }) => user.id === id);
 
     if (!user) return;
 
@@ -74,7 +74,9 @@ export default function Form() {
       setUsers([...users, { ...data, id: `${users.length + 1}` }]);
     } else {
       const newUsers = [...users];
-      const userIndex = users.findIndex((user) => user.id === id);
+      const userIndex = users.findIndex(
+        (user: { id: string }) => user.id === id
+      );
       newUsers[userIndex] = { ...data, id };
 
       setUsers(newUsers);
