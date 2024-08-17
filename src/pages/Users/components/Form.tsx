@@ -16,18 +16,18 @@ import {
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, Resolver, useForm } from "react-hook-form";
 import InputMask from "react-input-mask";
 import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
 import { useLocalStorage } from "usehooks-ts";
 
 import FormTitle from "../../../components/FormTitle";
 
-import { findBrazilianZipCode } from "../services/api";
+import { findBrazilianZipCode } from "../../../services/api";
 
-import { UserSchema } from "../pages/Users/schemas/UserShema";
+import { UserSchema } from "../schemas/UserShema";
 
-import { User } from "../pages/Users/types/User";
+import { User } from "../types/User";
 
 export default function Form() {
   const [users, setUsers] = useLocalStorage<User[]>("users", []);
@@ -42,7 +42,7 @@ export default function Form() {
     setFocus,
     setValue,
   } = useForm<User>({
-    resolver: yupResolver(UserSchema),
+    resolver: yupResolver(UserSchema) as unknown as Resolver<User>,
   });
 
   const [zipCodeFounded, setZipCodeFounded] = useState<boolean>();
@@ -50,7 +50,7 @@ export default function Form() {
   useEffect(() => {
     if (!id) return;
 
-    const user = users.find((user: { id: string }) => user.id === id);
+    const user = users.find((user) => user.id === id);
 
     if (!user) return;
 
@@ -74,9 +74,7 @@ export default function Form() {
       setUsers([...users, { ...data, id: `${users.length + 1}` }]);
     } else {
       const newUsers = [...users];
-      const userIndex = users.findIndex(
-        (user: { id: string }) => user.id === id
-      );
+      const userIndex = users.findIndex((user) => user.id === id);
       newUsers[userIndex] = { ...data, id };
 
       setUsers(newUsers);

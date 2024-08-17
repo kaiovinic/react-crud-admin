@@ -8,25 +8,35 @@ import {
   GridValueGetterParams,
 } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
+import { useLocalStorage } from "usehooks-ts";
 
-import DataTable from "../pages/Users/components/DataTable";
+import DataTable from "../../../components/DataTable";
 
-import { User } from "../pages/Users/types/User";
+import { User } from "../types/User";
 
 export default function Grid() {
+  const [users, setUsers] = useLocalStorage<User[]>("users", []);
+  const navigate = useNavigate();
+
   const onCall = (params: GridRenderCellParams) => {
-    // Chamada via WhatsApp
+    if (!params.row.mobile) return;
+
+    window.location.href = `https://wa.me/55${params.row.mobile.replace(
+      /[^\d]+/g,
+      ""
+    )}`;
   };
 
   const onEdit = (params: GridRenderCellParams) => {
-    // Edição de usuário
+    if (!params.row.id) return;
+    navigate(`/users/${params.row.id}`);
   };
 
   const onDelete = (params: GridRenderCellParams) => {
-    // Exclusão de usuário
+    if (!params.row.id) return;
+    setUsers(users.filter((user) => user.id !== params.row.id));
   };
 
-  // Definição das colunas da tabela
   const columns: GridColDef<User>[] = [
     { field: "id", headerName: "ID", width: 70 },
     {
@@ -83,26 +93,6 @@ export default function Grid() {
           </IconButton>
         </Stack>
       ),
-    },
-  ];
-
-  // Criação de uma carga dummy de usuários
-  const users = [
-    {
-      id: "1",
-      fullName: "Kaio Vinicius Silva Santos",
-      document: "986.007.560-30",
-      birthDate: new Date(1986, 1, 1),
-      email: "Kaio@teste.com.br",
-      emailVerified: true,
-      mobile: "(11) 99999-9999",
-      zipCode: "00000-000",
-      addressName: "Rua Teste",
-      number: "123",
-      complement: "",
-      neighborhood: "Bairro Teste",
-      city: "Salvador",
-      state: "BA",
     },
   ];
 
